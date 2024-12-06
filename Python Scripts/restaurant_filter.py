@@ -9,14 +9,8 @@ business['food'] = business['categories'].str.contains(pat='Food', flags=re.IGNO
 restaurants = business[(business['restaurant']) | (business['food'])]
 restaurants = restaurants.drop(['restaurant', 'food'], axis=1)
 
-US_STATES = [
-    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 
-    'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
-    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 
-    'VA', 'WA', 'WV', 'WI', 'WY'
-]
-us_restaurants = restaurants[restaurants['state'].isin(US_STATES)]
+ca_restaurants = restaurants[restaurants['state'] == 'CA']
 
-open_restaurants = us_restaurants[us_restaurants['is_open'] == 1]
+open_restaurants = ca_restaurants[ca_restaurants['is_open'] == 1]
 open_restaurants.to_json('restaurants.json', orient='records', lines=False, force_ascii=False, indent=4)
-print(f"Wrote {restaurants.shape[0]} restaurants to restaurants.json")
+print(f"Wrote {open_restaurants.shape[0]} restaurants to restaurants.json")
